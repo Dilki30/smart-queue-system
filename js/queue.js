@@ -73,7 +73,12 @@ function renderTracker(t) {
     document.getElementById('myToken').textContent = t.displayCode;
     document.getElementById('myPosition').textContent = t.status === 'cancelled' ? '—' : t.position;
     document.getElementById('myWaitTime').textContent = t.status === 'cancelled' ? '—' : t.estimatedWaitMinutes;
-    document.getElementById('nowServing').textContent = t.nowServing > 0 ? t.displayCode.split('-')[0] + '-' + String(t.nowServing).padStart(3, '0') : '—';
+    
+    // 1. SAFETY CHECK: Only update if the element hasn't been deleted
+    const nowServingEl = document.getElementById('nowServing');
+    if (nowServingEl) {
+        nowServingEl.textContent = t.nowServing > 0 ? t.displayCode.split('-')[0] + '-' + String(t.nowServing).padStart(3, '0') : '—';
+    }
 
     const banner = document.getElementById('statusBanner');
     if (t.status === 'cancelled') {
@@ -87,6 +92,7 @@ function renderTracker(t) {
         banner.innerHTML = '<h5 class="mb-0">🔔 Almost your turn — please be ready!</h5>';
     } else {
         banner.className = 'custom-card p-3 bg-primary text-white';
-        banner.innerHTML = `<h5 class="mb-0">Now Serving: <span class="fw-bold fs-3 ms-2">${t.nowServing > 0 ? String(t.nowServing).padStart(3, '0') : '—'}</span></h5>`;
+        // 2. HTML FIX: Added id="nowServing" back into the span so it survives the refresh
+        banner.innerHTML = `<h5 class="mb-0">Now Serving: <span id="nowServing" class="fw-bold fs-3 ms-2">${t.nowServing > 0 ? t.displayCode.split('-')[0] + '-' + String(t.nowServing).padStart(3, '0') : '—'}</span></h5>`;
     }
 }

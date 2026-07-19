@@ -19,9 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('chooseBankBtn').addEventListener('click', () => startBankFlow());
 
     document.getElementById('backToTypeBtn').addEventListener('click', showTypeStep);
-    document.getElementById('backToHospitalListBtn').addEventListener('click', () => goToStep('hospitalList'));
-    document.getElementById('backToDoctorListBtn').addEventListener('click', () => goToStep('doctorList'));
-    document.getElementById('backToBankListBtn').addEventListener('click', () => goToStep('bankList'));
+    // FIXED: Updated to match HTML IDs with dashes
+    document.getElementById('backToHospitalListBtn').addEventListener('click', () => goToStep('hospital-list'));
+    document.getElementById('backToDoctorListBtn').addEventListener('click', () => goToStep('doctor-list'));
+    document.getElementById('backToBankListBtn').addEventListener('click', () => goToStep('bank-list'));
 
     document.getElementById('doctorSearchInput').addEventListener('input', debounce(loadDoctors, 300));
     document.getElementById('serviceSearchInput').addEventListener('input', debounce(loadServices, 300));
@@ -35,10 +36,14 @@ function debounce(fn, delay) {
     return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), delay); };
 }
 
-const STEPS = ['type', 'hospitalList', 'doctorList', 'slots', 'bankList', 'services'];
+// FIXED: Updated array strings to match HTML IDs perfectly
+const STEPS = ['type', 'hospital-list', 'doctor-list', 'slots', 'bank-list', 'services'];
 function goToStep(name) {
     STEPS.forEach(s => {
-        document.getElementById('step-' + s).style.display = (s === name) ? 'block' : 'none';
+        const el = document.getElementById('step-' + s);
+        if (el) { // Added safety check to prevent 'null' crashes
+            el.style.display = (s === name) ? 'block' : 'none';
+        }
     });
 }
 
@@ -48,7 +53,7 @@ function showTypeStep() { state.mode = null; goToStep('type'); }
 
 function startHospitalFlow() {
     state.mode = 'hospital';
-    goToStep('hospitalList');
+    goToStep('hospital-list'); // FIXED
     loadHospitals();
 }
 
@@ -73,7 +78,7 @@ function selectHospital(id, name) {
     state.hospital = { id, name };
     document.getElementById('selectedHospitalName').textContent = name;
     document.getElementById('doctorSearchInput').value = '';
-    goToStep('doctorList');
+    goToStep('doctor-list'); // FIXED
     loadDoctors();
 }
 
@@ -180,7 +185,7 @@ async function confirmHospitalBooking() {
 
 function startBankFlow() {
     state.mode = 'bank';
-    goToStep('bankList');
+    goToStep('bank-list'); // FIXED
     loadBanks();
 }
 

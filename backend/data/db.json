@@ -1,0 +1,465 @@
+{
+  "users": [
+    {
+      "id": "u_329b4d999f6d",
+      "name": "Dilki Nimeshika",
+      "email": "dnimeshika19@gmail.com",
+      "phone": "0771234567",
+      "passwordHash": "e0e7f16ade7b5c816fd26e5ac21b70aeb8089d894d0b329132cdbdf2a11b14c193af4daf6fbddb4ef9f50a97f2dd81cd6d9c37221ae188710c9526c3ecd1e8d3",
+      "salt": "c667ee1a99a03aa1c839f9c9f66ba696",
+      "createdAt": "2026-07-19T14:08:16.458Z"
+    }
+  ],
+  "sessions": {
+    "30b05f9fab30fda98df57a20f8500c4e7cc1edfa997c32961a9fa6f1600b8e90": {
+      "userId": "u_329b4d999f6d",
+      "expiresAt": 1785074896460
+    }
+  },
+  "hospitals": [
+    {
+      "id": "h1",
+      "name": "City General Hospital",
+      "location": "Colombo 07",
+      "image": "https://images.unsplash.com/photo-1587351021355-a479a299d2f9?w=400"
+    },
+    {
+      "id": "h2",
+      "name": "Lakeside Medical Center",
+      "location": "Colombo 03",
+      "image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400"
+    },
+    {
+      "id": "h3",
+      "name": "Green Valley Clinic",
+      "location": "Nugegoda",
+      "image": "https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=400"
+    }
+  ],
+  "doctors": [
+    {
+      "id": "d1",
+      "hospitalId": "h1",
+      "name": "Dr. Nadeesha Perera",
+      "specialization": "Cardiologist",
+      "diseases": [
+        "heart",
+        "chest pain",
+        "high blood pressure",
+        "hypertension",
+        "cardiac"
+      ],
+      "startHour": 9,
+      "endHour": 12,
+      "avgServiceMinutes": 15,
+      "offDays": [
+        0
+      ]
+    },
+    {
+      "id": "d2",
+      "hospitalId": "h1",
+      "name": "Dr. Kasun Silva",
+      "specialization": "Dermatologist",
+      "diseases": [
+        "skin",
+        "acne",
+        "rash",
+        "eczema",
+        "allergy"
+      ],
+      "startHour": 13,
+      "endHour": 16,
+      "avgServiceMinutes": 10,
+      "offDays": [
+        0,
+        6
+      ]
+    },
+    {
+      "id": "d3",
+      "hospitalId": "h1",
+      "name": "Dr. Amaya Fernando",
+      "specialization": "Pediatrician",
+      "diseases": [
+        "child",
+        "children",
+        "fever",
+        "flu",
+        "vaccination",
+        "baby"
+      ],
+      "startHour": 9,
+      "endHour": 12,
+      "avgServiceMinutes": 12,
+      "offDays": [
+        0
+      ]
+    },
+    {
+      "id": "d4",
+      "hospitalId": "h2",
+      "name": "Dr. Ruwan Jayasuriya",
+      "specialization": "Orthopedic Surgeon",
+      "diseases": [
+        "bone",
+        "joint",
+        "fracture",
+        "back pain",
+        "knee",
+        "arthritis"
+      ],
+      "startHour": 9,
+      "endHour": 13,
+      "avgServiceMinutes": 20,
+      "offDays": [
+        0
+      ]
+    },
+    {
+      "id": "d5",
+      "hospitalId": "h2",
+      "name": "Dr. Ishara Wickramasinghe",
+      "specialization": "General Physician",
+      "diseases": [
+        "fever",
+        "cold",
+        "cough",
+        "general checkup",
+        "diabetes"
+      ],
+      "startHour": 8,
+      "endHour": 12,
+      "avgServiceMinutes": 10,
+      "offDays": []
+    },
+    {
+      "id": "d6",
+      "hospitalId": "h2",
+      "name": "Dr. Chathura Bandara",
+      "specialization": "ENT Specialist",
+      "diseases": [
+        "ear",
+        "nose",
+        "throat",
+        "sinus",
+        "hearing"
+      ],
+      "startHour": 14,
+      "endHour": 17,
+      "avgServiceMinutes": 15,
+      "offDays": [
+        0,
+        6
+      ]
+    },
+    {
+      "id": "d7",
+      "hospitalId": "h3",
+      "name": "Dr. Sanduni Rathnayake",
+      "specialization": "Gynecologist",
+      "diseases": [
+        "pregnancy",
+        "women health",
+        "gynecology",
+        "prenatal"
+      ],
+      "startHour": 9,
+      "endHour": 12,
+      "avgServiceMinutes": 20,
+      "offDays": [
+        0
+      ]
+    },
+    {
+      "id": "d8",
+      "hospitalId": "h3",
+      "name": "Dr. Malith Gunasekara",
+      "specialization": "Dentist",
+      "diseases": [
+        "tooth",
+        "teeth",
+        "dental",
+        "gum",
+        "toothache"
+      ],
+      "startHour": 9,
+      "endHour": 16,
+      "avgServiceMinutes": 25,
+      "offDays": [
+        0
+      ]
+    },
+    {
+      "id": "d9",
+      "hospitalId": "h3",
+      "name": "Dr. Hasini Karunaratne",
+      "specialization": "Psychiatrist",
+      "diseases": [
+        "mental health",
+        "anxiety",
+        "depression",
+        "stress",
+        "sleep"
+      ],
+      "startHour": 10,
+      "endHour": 13,
+      "avgServiceMinutes": 30,
+      "offDays": [
+        0,
+        6
+      ]
+    }
+  ],
+  "banks": [
+    {
+      "id": "b1",
+      "name": "National Trust Bank",
+      "location": "Colombo 01"
+    },
+    {
+      "id": "b2",
+      "name": "Ceylon Commercial Bank",
+      "location": "Colombo 04"
+    },
+    {
+      "id": "b3",
+      "name": "Island Savings Bank",
+      "location": "Kandy Road, Kaduwela"
+    }
+  ],
+  "bankServices": [
+    {
+      "id": "s1",
+      "bankId": "b1",
+      "name": "Cash Withdrawal",
+      "keywords": [
+        "withdraw",
+        "withdrawal",
+        "cash out",
+        "take money"
+      ],
+      "avgServiceMinutes": 4,
+      "counter": "Counter A"
+    },
+    {
+      "id": "s2",
+      "bankId": "b1",
+      "name": "Cash Deposit",
+      "keywords": [
+        "deposit",
+        "put money",
+        "save money"
+      ],
+      "avgServiceMinutes": 4,
+      "counter": "Counter A"
+    },
+    {
+      "id": "s3",
+      "bankId": "b1",
+      "name": "Card Renewal / Replacement",
+      "keywords": [
+        "renew card",
+        "renewal",
+        "lost card",
+        "replace card",
+        "debit card",
+        "credit card"
+      ],
+      "avgServiceMinutes": 8,
+      "counter": "Counter B"
+    },
+    {
+      "id": "s4",
+      "bankId": "b1",
+      "name": "Open New Account",
+      "keywords": [
+        "open account",
+        "new account",
+        "account opening"
+      ],
+      "avgServiceMinutes": 15,
+      "counter": "Counter C"
+    },
+    {
+      "id": "s5",
+      "bankId": "b1",
+      "name": "Loan Inquiry",
+      "keywords": [
+        "loan",
+        "borrow",
+        "mortgage",
+        "credit"
+      ],
+      "avgServiceMinutes": 20,
+      "counter": "Counter D"
+    },
+    {
+      "id": "s6",
+      "bankId": "b2",
+      "name": "Cash Withdrawal",
+      "keywords": [
+        "withdraw",
+        "withdrawal",
+        "cash out"
+      ],
+      "avgServiceMinutes": 4,
+      "counter": "Counter 1"
+    },
+    {
+      "id": "s7",
+      "bankId": "b2",
+      "name": "Cash Deposit",
+      "keywords": [
+        "deposit",
+        "put money"
+      ],
+      "avgServiceMinutes": 4,
+      "counter": "Counter 1"
+    },
+    {
+      "id": "s8",
+      "bankId": "b2",
+      "name": "Cheque Deposit / Clearance",
+      "keywords": [
+        "cheque",
+        "check",
+        "clearance"
+      ],
+      "avgServiceMinutes": 6,
+      "counter": "Counter 2"
+    },
+    {
+      "id": "s9",
+      "bankId": "b2",
+      "name": "Card Renewal / Replacement",
+      "keywords": [
+        "renew card",
+        "renewal",
+        "lost card",
+        "card"
+      ],
+      "avgServiceMinutes": 8,
+      "counter": "Counter 3"
+    },
+    {
+      "id": "s10",
+      "bankId": "b2",
+      "name": "Foreign Currency Exchange",
+      "keywords": [
+        "currency",
+        "exchange",
+        "forex",
+        "dollar"
+      ],
+      "avgServiceMinutes": 10,
+      "counter": "Counter 3"
+    },
+    {
+      "id": "s11",
+      "bankId": "b3",
+      "name": "Cash Withdrawal",
+      "keywords": [
+        "withdraw",
+        "withdrawal",
+        "cash"
+      ],
+      "avgServiceMinutes": 5,
+      "counter": "Counter A"
+    },
+    {
+      "id": "s12",
+      "bankId": "b3",
+      "name": "Cash Deposit",
+      "keywords": [
+        "deposit"
+      ],
+      "avgServiceMinutes": 5,
+      "counter": "Counter A"
+    },
+    {
+      "id": "s13",
+      "bankId": "b3",
+      "name": "Fixed Deposit Inquiry",
+      "keywords": [
+        "fixed deposit",
+        "fd",
+        "savings plan"
+      ],
+      "avgServiceMinutes": 15,
+      "counter": "Counter B"
+    },
+    {
+      "id": "s14",
+      "bankId": "b3",
+      "name": "Update Passbook",
+      "keywords": [
+        "passbook",
+        "update book",
+        "print book"
+      ],
+      "avgServiceMinutes": 3,
+      "counter": "Counter B"
+    }
+  ],
+  "tickets": [
+    {
+      "id": "t_31e4503063c8",
+      "userId": "u_329b4d999f6d",
+      "type": "hospital",
+      "hospitalId": "h1",
+      "hospitalName": "City General Hospital",
+      "doctorId": "d1",
+      "doctorName": "Dr. Nadeesha Perera",
+      "specialization": "Cardiologist",
+      "date": "2026-07-20",
+      "time": "09:30",
+      "queueKey": "hosp:d1:2026-07-20",
+      "tokenNumber": 1,
+      "displayCode": "D1-001",
+      "startHour": 9,
+      "avgServiceMinutes": 15,
+      "status": "active",
+      "createdAt": "2026-07-19T14:24:38.622Z"
+    },
+    {
+      "id": "t_2def8f62dce0",
+      "userId": "u_329b4d999f6d",
+      "type": "hospital",
+      "hospitalId": "h3",
+      "hospitalName": "Green Valley Clinic",
+      "doctorId": "d8",
+      "doctorName": "Dr. Malith Gunasekara",
+      "specialization": "Dentist",
+      "date": "2026-07-23",
+      "time": "10:30",
+      "queueKey": "hosp:d8:2026-07-23",
+      "tokenNumber": 1,
+      "displayCode": "D8-001",
+      "startHour": 9,
+      "avgServiceMinutes": 25,
+      "status": "active",
+      "createdAt": "2026-07-19T14:31:52.729Z"
+    },
+    {
+      "id": "t_046dc0b7cc54",
+      "userId": "u_329b4d999f6d",
+      "type": "bank",
+      "bankId": "b2",
+      "bankName": "Ceylon Commercial Bank",
+      "serviceId": "s7",
+      "serviceName": "Cash Deposit",
+      "counter": "Counter 1",
+      "date": "2026-07-19",
+      "time": null,
+      "queueKey": "bank:s7:2026-07-19",
+      "tokenNumber": 1,
+      "displayCode": "R1-001",
+      "startHour": 9,
+      "avgServiceMinutes": 4,
+      "status": "active",
+      "createdAt": "2026-07-19T14:32:43.236Z"
+    }
+  ],
+  "queues": {}
+}

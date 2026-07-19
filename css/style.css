@@ -1,0 +1,131 @@
+:root {
+    --bg-color: #f4f7f6;
+    --surface-color: #ffffff;
+    --text-color: #212529;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    --primary-color: #0d6efd;
+    --card-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --surface-color: #1e1e1e;
+    --text-color: #f8f9fa;
+    --text-muted: #adb5bd;
+    --border-color: #343a40;
+    --primary-color: #3b82f6;
+    --card-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Global Card & Inputs */
+.custom-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+}
+
+.custom-input {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.custom-input:focus {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-color: var(--primary-color);
+    box-shadow: none;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+}
+
+/* Auth Specific */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.auth-box { width: 100%; max-width: 450px; padding: 30px; }
+.password-strength { height: 5px; margin-top: 5px; border-radius: 3px; transition: 0.3s; }
+.error-text { color: #dc3545; font-size: 0.85rem; display: none; margin-top: 5px; }
+
+/* Dashboard Specific */
+.stat-card { border-left: 4px solid var(--primary-color); padding: 20px; text-align: center; }
+
+/* History Table Dark Mode Fixes */
+[data-theme="dark"] .table { color: var(--text-color); }
+[data-theme="dark"] tbody, [data-theme="dark"] td, [data-theme="dark"] th { border-color: var(--border-color); }
+[data-theme="dark"] .table-hover > tbody > tr:hover > * { color: var(--text-color); box-shadow: inset 0 0 0 9999px rgba(255, 255, 255, 0.1); }
+
+/* Notifications */
+#toast-container { z-index: 9999; }
+
+/* Booking wizard */
+.selectable-card {
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.selectable-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-color: var(--primary-color);
+}
+
+.date-tab { white-space: nowrap; }
+.date-tab.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.slot-btn {
+    min-width: 90px;
+    line-height: 1.2;
+}
+.slot-btn.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+.slot-btn.disabled, .slot-btn:disabled {
+    opacity: 0.5;
+}
+
+.service-item {
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+.service-item:hover {
+    background-color: var(--bg-color);
+}
+.service-item.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+.service-item.active .text-muted { color: rgba(255,255,255,0.8) !important; }
+.service-item.active .fa-chevron-right { color: #fff !important; }
+
+[data-theme="dark"] .bg-secondary-subtle { background-color: #343a40 !important; }
+[data-theme="dark"] .text-secondary-emphasis { color: #ced4da !important; }

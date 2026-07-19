@@ -1,0 +1,13 @@
+{
+  "name": "smart-queue-backend",
+  "version": "1.0.0",
+  "description": "Backend for the Smart Queue & Appointment System. Zero external dependencies.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "license": "MIT"
+}

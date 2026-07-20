@@ -50,6 +50,24 @@ function matchRoute(method, pathname) {
   return null;
 }
 
+// 👑 ADMIN HANDLER: Fetch all tickets in the system
+const getAdminTickets = (req, res) => {
+  try {
+    const ticketsPath = path.join(__dirname, 'data', 'tickets.json');
+    let allTickets = [];
+    
+    if (fs.existsSync(ticketsPath)) {
+      const rawData = fs.readFileSync(ticketsPath, 'utf8');
+      allTickets = JSON.parse(rawData);
+    }
+
+    sendJson(res, 200, { tickets: allTickets });
+  } catch (error) {
+    console.error("Admin Ticket Fetch Error:", error);
+    sendJson(res, 500, { error: "Could not retrieve tickets for admin." });
+  }
+};
+
 // ---- API routes ----
 route('POST', '/api/auth/register', authHandlers.register);
 route('POST', '/api/auth/login', authHandlers.login);
@@ -69,6 +87,10 @@ route('POST', '/api/bookings/bank', bankHandlers.bookBank);
 route('GET', '/api/tickets/mine', ticketHandlers.myTickets);
 route('GET', '/api/tickets/:id', ticketHandlers.getTicket);
 route('POST', '/api/tickets/:id/cancel', ticketHandlers.cancelTicket);
+
+// 👑 ADMIN ROUTE
+route('GET', '/api/admin/tickets', getAdminTickets);
+
 
 // ---- Static file serving for the frontend ----
 function serveStatic(req, res, pathname) {

@@ -22,12 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function handleLogin(e) {
     e.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
+    
+    // Using .toLowerCase() and .trim() ensures capital letters or spaces won't break the admin login
+    const email = document.getElementById('email').value.trim().toLowerCase();
+    const password = document.getElementById('password').value.trim();
     const errorBox = document.getElementById('authError');
     const btn = e.target.querySelector('button[type="submit"]');
 
-    // 👑 UPDATED ADMIN BYPASS LOGIC 
+    // 👑 BULLETPROOF ADMIN BYPASS LOGIC 
     if (email === 'admin@admin.com' && password === 'JAPURA') {
         // Force the browser to save the admin identity directly
         localStorage.setItem('token', 'admin-token');
@@ -37,12 +39,9 @@ async function handleLogin(e) {
         return; // Stop the regular login process
     }
 
-    // ... (rest of your existing login code stays the same)
     errorBox.style.display = 'none';
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Logging in...';
-
-    // ...
 
     try {
         const data = await api_.post('/api/auth/login', { email, password });

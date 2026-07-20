@@ -27,16 +27,22 @@ async function handleLogin(e) {
     const errorBox = document.getElementById('authError');
     const btn = e.target.querySelector('button[type="submit"]');
 
-    // 👑 ADMIN BYPASS LOGIC 
-    if (email === 'admin' && password === 'JAPURA') {
-        Auth.setSession('admin-token', { name: 'System Admin', role: 'admin' });
+    // 👑 UPDATED ADMIN BYPASS LOGIC 
+    if (email === 'admin@admin.com' && password === 'JAPURA') {
+        // Force the browser to save the admin identity directly
+        localStorage.setItem('token', 'admin-token');
+        localStorage.setItem('user', JSON.stringify({ name: 'System Admin', role: 'admin' }));
+        
         window.location.href = 'admin.html';
         return; // Stop the regular login process
     }
 
+    // ... (rest of your existing login code stays the same)
     errorBox.style.display = 'none';
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Logging in...';
+
+    // ...
 
     try {
         const data = await api_.post('/api/auth/login', { email, password });

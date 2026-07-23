@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
 async function handleLogin(e) {
     e.preventDefault();
     
-    // Using .toLowerCase() and .trim() ensures capital letters or spaces won't break the admin login
     const email = document.getElementById('email').value.trim().toLowerCase();
     const password = document.getElementById('password').value.trim();
     
@@ -100,7 +99,6 @@ async function handleRegister(e) {
         const data = await api_.post('/api/auth/register', { name, email, phone, password });
         Auth.setSession(data.token, data.user);
         
-        // Save phone separately for your SMS integration later
         localStorage.setItem('phone', phone);
 
         window.location.href = 'dashboard.html';

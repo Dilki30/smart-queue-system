@@ -2,7 +2,7 @@
    and Bank (bank -> search need -> service) flows. */
 
 const state = {
-    mode: null,        // 'hospital' | 'bank'
+    mode: null,        
     hospital: null,
     doctor: null,
     availability: null,
@@ -36,12 +36,12 @@ function debounce(fn, delay) {
     return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), delay); };
 }
 
-// FIXED: Updated array strings to match HTML IDs perfectly
+
 const STEPS = ['type', 'hospital-list', 'doctor-list', 'slots', 'bank-list', 'services'];
 function goToStep(name) {
     STEPS.forEach(s => {
         const el = document.getElementById('step-' + s);
-        if (el) { // Added safety check to prevent 'null' crashes
+        if (el) { 
             el.style.display = (s === name) ? 'block' : 'none';
         }
     });
@@ -53,7 +53,7 @@ function showTypeStep() { state.mode = null; goToStep('type'); }
 
 function startHospitalFlow() {
     state.mode = 'hospital';
-    goToStep('hospital-list'); // FIXED
+    goToStep('hospital-list'); 
     loadHospitals();
 }
 
@@ -185,7 +185,7 @@ async function confirmHospitalBooking() {
 
 function startBankFlow() {
     state.mode = 'bank';
-    goToStep('bank-list'); // FIXED
+    goToStep('bank-list'); 
     loadBanks();
 }
 

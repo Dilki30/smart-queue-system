@@ -50,17 +50,37 @@ function matchRoute(method, pathname) {
   return null;
 }
 
-// 👑 ADMIN HANDLER: Fetch all tickets in the system
+// 👑 ADMIN HANDLER: Fetch all tickets in the system using the Smart Hunter approach
 const getAdminTickets = (req, res) => {
   try {
-    // FIXED: The 'data' folder requirement has been removed. 
-    // It now correctly looks for tickets.json in the same folder as server.js
-    const ticketsPath = path.join(__dirname, 'tickets.json');
+    // SMART HUNTER: Check all possible folders where the other files might be saving tickets.json
+    const possiblePaths = [
+      path.join(__dirname, 'data', 'tickets.json'),         // Inside backend/data/
+      path.join(__dirname, 'tickets.json'),                 // Inside backend/
+      path.join(__dirname, '..', 'data', 'tickets.json'),   // Outside backend/data/
+      path.join(__dirname, '..', 'tickets.json'),           // Outside backend/
+      path.join(__dirname, 'src', 'data', 'tickets.json')   // Inside backend/src/data/
+    ];
+
     let allTickets = [];
-    
-    if (fs.existsSync(ticketsPath)) {
-      const rawData = fs.readFileSync(ticketsPath, 'utf8');
+    let foundPath = null;
+
+    // Search through the paths until we find the file
+    for (let p of possiblePaths) {
+      if (fs.existsSync(p)) {
+        foundPath = p;
+        break;
+      }
+    }
+
+    if (foundPath) {
+      const rawData = fs.readFileSync(foundPath, 'utf8');
       allTickets = JSON.parse(rawData);
+      
+      // Sort tickets so the newest ones appear at the top
+      if (Array.isArray(allTickets)) {
+          allTickets.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+      }
     }
 
     sendJson(res, 200, { tickets: allTickets });

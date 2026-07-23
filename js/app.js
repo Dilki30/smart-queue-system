@@ -25,9 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* =========================================
-   CORE FUNCTIONS (used across multiple pages)
-   ========================================= */
+
 
 function initTheme() {
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
@@ -62,9 +60,7 @@ function showNotification(message, type = 'primary') {
     setTimeout(() => { if (container.lastChild) container.lastChild.remove(); }, 5000);
 }
 
-/* =========================================
-   PASSWORD STRENGTH (Register page)
-   ========================================= */
+
 function checkStrength() {
     const pwd = document.getElementById('password').value;
     const bar = document.getElementById('strengthBar');

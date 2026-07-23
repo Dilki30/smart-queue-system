@@ -53,7 +53,9 @@ function matchRoute(method, pathname) {
 // 👑 ADMIN HANDLER: Fetch all tickets in the system
 const getAdminTickets = (req, res) => {
   try {
-    const ticketsPath = path.join(__dirname, 'data', 'tickets.json');
+    // FIXED: The 'data' folder requirement has been removed. 
+    // It now correctly looks for tickets.json in the same folder as server.js
+    const ticketsPath = path.join(__dirname, 'tickets.json');
     let allTickets = [];
     
     if (fs.existsSync(ticketsPath)) {

@@ -56,7 +56,9 @@ async function loadAdminTickets() {
 async function cancelAdminTicket(id) {
     if (!confirm('Are you sure you want to cancel this appointment?')) return;
     try {
-        await api_.post(`/api/tickets/${id}/cancel`);
+        // FIXED: Now pointing to the new VIP Admin Route to bypass normal user auth
+        await api_.post(`/api/admin/tickets/${id}/cancel`);
+        
         if (typeof showToast === 'function') {
             showToast('Appointment cancelled successfully', 'success');
         } else {

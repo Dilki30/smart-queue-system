@@ -1,6 +1,3 @@
-// Smart Queue & Appointment System — backend server
-// Zero external dependencies: run with `node server.js`
-
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -77,6 +74,34 @@ const getAdminTickets = (req, res) => {
   }
 };
 
+// 👑 ADMIN HANDLER: Force cancel a ticket, bypassing normal user auth
+const adminCancelTicket = (req, res, params) => {
+  try {
+    const dbPath = path.join(__dirname, 'data', 'db.json');
+    
+    if (fs.existsSync(dbPath)) {
+      const db = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+      
+      // Find the specific ticket in the database
+      const ticketIndex = db.tickets.findIndex(t => t.id === params.id);
+      
+      if (ticketIndex !== -1) {
+        // Change the status to cancelled
+        db.tickets[ticketIndex].status = 'cancelled';
+        
+        // Save the updated database back to the file
+        fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
+        
+        return sendJson(res, 200, { message: 'Ticket successfully cancelled by admin' });
+      }
+    }
+    sendJson(res, 404, { error: 'Ticket not found in database' });
+  } catch (error) {
+    console.error("Admin Cancel Error:", error);
+    sendJson(res, 500, { error: "Could not cancel ticket." });
+  }
+};
+
 // ---- API routes ----
 route('POST', '/api/auth/register', authHandlers.register);
 route('POST', '/api/auth/login', authHandlers.login);
@@ -97,8 +122,9 @@ route('GET', '/api/tickets/mine', ticketHandlers.myTickets);
 route('GET', '/api/tickets/:id', ticketHandlers.getTicket);
 route('POST', '/api/tickets/:id/cancel', ticketHandlers.cancelTicket);
 
-// 👑 ADMIN ROUTE
+// 👑 ADMIN ROUTES
 route('GET', '/api/admin/tickets', getAdminTickets);
+route('POST', '/api/admin/tickets/:id/cancel', adminCancelTicket); // New VIP Cancel Route
 
 
 // ---- Static file serving for the frontend ----

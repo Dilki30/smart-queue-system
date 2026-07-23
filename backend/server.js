@@ -50,32 +50,19 @@ function matchRoute(method, pathname) {
   return null;
 }
 
-// 👑 ADMIN HANDLER: Fetch all tickets in the system using the Smart Hunter approach
+// 👑 ADMIN HANDLER: Fetch all tickets from the master db.json
 const getAdminTickets = (req, res) => {
   try {
-    // SMART HUNTER: Check all possible folders where the other files might be saving tickets.json
-    const possiblePaths = [
-      path.join(__dirname, 'data', 'tickets.json'),         // Inside backend/data/
-      path.join(__dirname, 'tickets.json'),                 // Inside backend/
-      path.join(__dirname, '..', 'data', 'tickets.json'),   // Outside backend/data/
-      path.join(__dirname, '..', 'tickets.json'),           // Outside backend/
-      path.join(__dirname, 'src', 'data', 'tickets.json')   // Inside backend/src/data/
-    ];
-
+    // Look inside the master database file mentioned in the README
+    const dbPath = path.join(__dirname, 'data', 'db.json');
     let allTickets = [];
-    let foundPath = null;
 
-    // Search through the paths until we find the file
-    for (let p of possiblePaths) {
-      if (fs.existsSync(p)) {
-        foundPath = p;
-        break;
-      }
-    }
-
-    if (foundPath) {
-      const rawData = fs.readFileSync(foundPath, 'utf8');
-      allTickets = JSON.parse(rawData);
+    if (fs.existsSync(dbPath)) {
+      const rawData = fs.readFileSync(dbPath, 'utf8');
+      const db = JSON.parse(rawData);
+      
+      // Extract just the tickets array from the master database object
+      allTickets = db.tickets || [];
       
       // Sort tickets so the newest ones appear at the top
       if (Array.isArray(allTickets)) {

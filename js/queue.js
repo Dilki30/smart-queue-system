@@ -1,98 +1,42 @@
-let pollTimer = null;
+// All queue/ticket-number logic lives here so booking + status endpoints
+// stay in sync.
 
-document.addEventListener('DOMContentLoaded', () => {
-    Auth.requireLogin();
-    const id = new URLSearchParams(window.location.search).get('id');
-
-    if (id) {
-        showTrackerFor(id);
-    } else {
-        showPicker();
-    }
-
-    document.getElementById('refreshBtn').addEventListener('click', () => {
-        const currentId = new URLSearchParams(window.location.search).get('id');
-        if (currentId) fetchStatus(currentId, true);
-    });
-});
-
-async function showPicker() {
-    document.getElementById('trackerView').style.display = 'none';
-    const pickerView = document.getElementById('pickerView');
-    pickerView.style.display = 'block';
-    pickerView.innerHTML = `<div class="text-center py-4"><span class="spinner-border text-primary"></span></div>`;
-
-    try {
-        const { tickets } = await api_.get('/api/tickets/mine');
-        const active = tickets.filter(t => t.status !== 'cancelled' && t.liveStatus !== 'completed');
-        if (active.length === 0) {
-            pickerView.innerHTML = `
-                <div class="custom-card p-4 text-center">
-                    <p class="text-muted mb-3">You have no active tickets right now.</p>
-                    <a href="booking.html" class="btn btn-primary">Book an Appointment</a>
-                </div>`;
-            return;
-        }
-        pickerView.innerHTML = `<h5 class="mb-3">Select a ticket to track</h5>` + active.map(t => `
-            <a href="queue.html?id=${t.id}" class="custom-card p-3 mb-3 d-block text-decoration-none text-reset selectable-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="fs-4 fw-bold text-primary">${t.displayCode}</div>
-                        <div class="small text-muted">${t.type === 'hospital' ? t.doctorName + ' · ' + t.hospitalName : t.serviceName + ' · ' + t.bankName}</div>
-                    </div>
-                    <i class="fas fa-chevron-right text-muted"></i>
-                </div>
-            </a>`).join('');
-    } catch (err) {
-        pickerView.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
-    }
+function todayStr() {
+  return new Date().toISOString().split('T')[0];
 }
 
-function showTrackerFor(id) {
-    document.getElementById('pickerView').style.display = 'none';
-    document.getElementById('trackerView').style.display = 'block';
-    fetchStatus(id);
-    if (pollTimer) clearInterval(pollTimer);
-    pollTimer = setInterval(() => fetchStatus(id), 5000);
+function buildQueueKey(kind, refId, date) {
+  return `${kind}:${refId}:${date}`;
 }
 
-async function fetchStatus(id, manualRefresh = false) {
-    try {
-        const { ticket } = await api_.get(`/api/tickets/${id}`);
-        renderTracker(ticket);
-        if (manualRefresh) showNotification('Queue status refreshed.');
-        if (ticket.liveStatus === 'completed' || ticket.status === 'cancelled') {
-            clearInterval(pollTimer);
-        }
-    } catch (err) {
-        showNotification(err.message, 'danger');
-    }
+// Next sequential ticket number for a given queue (per resource, per day).
+function nextTokenNumber(db, queueKey) {
+  const existing = db.tickets.filter(t => t.queueKey === queueKey && t.status !== 'cancelled');
+  return existing.length + 1;
 }
 
-function renderTracker(t) {
-    document.getElementById('myToken').textContent = t.displayCode;
-    document.getElementById('myPosition').textContent = t.status === 'cancelled' ? '—' : t.position;
-    document.getElementById('myWaitTime').textContent = t.status === 'cancelled' ? '—' : t.estimatedWaitMinutes;
-    
-    // 1. SAFETY CHECK: Only update if the element hasn't been deleted
-    const nowServingEl = document.getElementById('nowServing');
-    if (nowServingEl) {
-        nowServingEl.textContent = t.nowServing > 0 ? t.displayCode.split('-')[0] + '-' + String(t.nowServing).padStart(3, '0') : '—';
-    }
+// Compute how many people the counter has served so far "right now",
+// based on when the counter opens and how long each person takes.
+function computeNowServing(queueKey, date, startHour, avgServiceMinutes, maxIssued) {
+  if (maxIssued === 0) return 0;
+  const today = todayStr();
+  if (date > today) return 0; // future day, counter hasn't opened yet
+  if (date < today) return maxIssued; // past day, assume queue fully cleared
 
-    const banner = document.getElementById('statusBanner');
-    if (t.status === 'cancelled') {
-        banner.className = 'custom-card p-3 bg-danger text-white';
-        banner.innerHTML = '<h5 class="mb-0">This ticket was cancelled</h5>';
-    } else if (t.liveStatus === 'completed') {
-        banner.className = 'custom-card p-3 bg-success text-white';
-        banner.innerHTML = '<h5 class="mb-0">✅ Completed — thank you!</h5>';
-    } else if (t.liveStatus === 'almost') {
-        banner.className = 'custom-card p-3 bg-warning text-dark';
-        banner.innerHTML = '<h5 class="mb-0">🔔 Almost your turn — please be ready!</h5>';
-    } else {
-        banner.className = 'custom-card p-3 bg-primary text-white';
-        // 2. HTML FIX: Added id="nowServing" back into the span so it survives the refresh
-        banner.innerHTML = `<h5 class="mb-0">Now Serving: <span id="nowServing" class="fw-bold fs-3 ms-2">${t.nowServing > 0 ? t.displayCode.split('-')[0] + '-' + String(t.nowServing).padStart(3, '0') : '—'}</span></h5>`;
-    }
+  const openTime = new Date();
+  openTime.setHours(startHour, 0, 0, 0);
+  const now = new Date();
+  if (now < openTime) return 0;
+
+  const elapsedMinutes = (now - openTime) / 60000;
+  const served = Math.floor(elapsedMinutes / avgServiceMinutes) + 1;
+  return Math.min(served, maxIssued);
 }
+
+function ticketStatus(nowServing, tokenNumber) {
+  if (nowServing >= tokenNumber) return 'completed';
+  if (nowServing > 0 && tokenNumber - nowServing <= 1) return 'almost';
+  return 'waiting';
+}
+
+module.exports = { todayStr, buildQueueKey, nextTokenNumber, computeNowServing, ticketStatus };

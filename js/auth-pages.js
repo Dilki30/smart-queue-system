@@ -26,26 +26,8 @@ async function handleLogin(e) {
     const email = document.getElementById('email').value.trim().toLowerCase();
     const password = document.getElementById('password').value.trim();
     
-    // 🚨 TRACER ALERT 1: This will tell us if the new code is actually running, 
-    // and exactly what email/password it is reading from the boxes.
-    alert("SYSTEM CHECK -> Email: [" + email + "] | Password: [" + password + "]");
-
     const errorBox = document.getElementById('authError');
     const btn = e.target.querySelector('button[type="submit"]');
-
-    // 👑 BULLETPROOF ADMIN BYPASS LOGIC 
-    if (email === 'admin@admin.com' && password.toUpperCase() === 'JAPURA') {
-        
-        // 🚨 TRACER ALERT 2: This confirms the bypass was triggered successfully
-        alert("SUCCESS! Admin recognized. Redirecting to admin.html now...");
-
-        // Force the browser to save the admin identity directly
-        localStorage.setItem('token', 'admin-token');
-        localStorage.setItem('user', JSON.stringify({ name: 'System Admin', role: 'admin' }));
-        
-        window.location.href = 'admin.html';
-        return; // Stop the regular login process
-    }
 
     errorBox.style.display = 'none';
     btn.disabled = true;

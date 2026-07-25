@@ -2,6 +2,8 @@
 
 A queue and appointment booking system for hospitals and banks.
 
+**🔗 Project Resources:** [Google Drive Folder](https://share.google/C7SGjxYZ87ES6hxRF)
+
 - **Hospitals:** pick a hospital, search for a doctor by disease/symptom, choose a date and time slot, and book.
 - **Banks:** pick a bank, type what you need (withdraw, deposit, renew card, loan, ...), and instantly get a queue number.
 - Every booking produces a **downloadable PDF ticket** with a queue number, and a **live queue tracker** page that shows your position and estimated wait, updating automatically.
